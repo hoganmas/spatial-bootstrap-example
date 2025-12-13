@@ -7,6 +7,8 @@ import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap'
 function App() {
   const [count, setCount] = useState(0)
 
+  console.log(import.meta.env.XR_ENV)
+
   return (
     <Container className="py-5">
     <Row className="text-center mb-4">

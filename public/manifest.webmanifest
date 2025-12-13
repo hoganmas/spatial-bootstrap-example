@@ -1,19 +1,21 @@
 {
-  "name": "My Awesome App",
-  "start_url": "/",
-  "display": "minimal-ui",
-  "icons": [
+    "name": "WebSpatial Hackathon",
+    "short_name": "Hackathon",
+    "start_url": "/webspatial/avp/",
+    "scope": "/",
+    "display": "standalone",
+    "icons": [
       {
-          "src": "/icon.png",
-          "sizes": "512x512",
-          "type": "image/png",
-          "purpose": "any"
+        "src": "/icon.png",
+        "type": "image/png",
+        "purpose": "maskable"
       }
-  ],
-  "xr_main_scene": {
-    "default_size": {
-      "width": 500,
-      "height": 1000
+    ],
+    "xr_main_scene": {
+      "default_size": {
+        "width": 1200,
+        "height": 800
+      }
     }
   }
-}
+  

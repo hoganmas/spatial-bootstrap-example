@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:avp": "XR_ENV=avp vite",
+    "run:avp": "webspatial-builder run --base=http://localhost:3000"
   },
   "dependencies": {
     "@google/model-viewer": "^4.1.0",
