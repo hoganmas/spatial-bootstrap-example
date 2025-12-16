@@ -15,9 +15,9 @@
     "@google/model-viewer": "^4.1.0",
     "@webspatial/core-sdk": "^1.0.5",
     "@webspatial/react-sdk": "^1.0.5",
-    "bootstrap": "file:../bootstrap",
+    "bootstrap": "github:hoganmas/spatial-bootstrap#main",
     "react": "^19.2.0",
-    "react-bootstrap": "file:../spatial-bootstrap",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.0",
     "three": "^0.172.0"
   },

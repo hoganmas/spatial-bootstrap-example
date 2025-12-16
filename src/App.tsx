@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Container, Row, Col, Card, Button, Badge, ButtonGroup } from 'react-bootstrap'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [showAlert, setShowAlert] = useState(true)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     // Initialize from localStorage or default to 'light'
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null
     return savedTheme || 'light'
   })
+  const [example, setExample] = useState<'pricing' | 'components'>('pricing')
 
   useEffect(() => {
     // Apply theme to document
@@ -24,80 +21,226 @@ function App() {
   }
 
   return (
-    <Container className="py-5">
-      <Row className="mb-3">
-        <Col className="text-end">
-          <Button 
-            variant={theme === 'light' ? 'dark' : 'light'}
-            onClick={toggleTheme}
-            className="d-inline-flex align-items-center"
+    <Container fluid className="py-4">
+      <Row>
+        {/* Sidebar */}
+        <Col md={3} lg={2} className="d-none d-md-block border-end">
+          <div
+            className="d-flex flex-column position-sticky"
+            style={{ top: '1rem', padding: '1.5rem 1rem 1.5rem 0' }}
           >
-            {theme === 'light' ? (
-              <>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-moon-fill me-2" viewBox="0 0 16 16">
-                  <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278"/>
-                </svg>
-                Dark Mode
-              </>
-            ) : (
-              <>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-sun-fill me-2" viewBox="0 0 16 16">
-                  <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
-                </svg>
-                Light Mode
-              </>
-            )}
-          </Button>
+            <div className="mb-4">
+              <h5 className="mb-3">Examples</h5>
+              <div className="d-grid gap-2">
+                <Button
+                  variant={example === 'pricing' ? 'primary' : 'outline-primary'}
+                  size="sm"
+                  onClick={() => setExample('pricing')}
+                >
+                  Pricing page
+                </Button>
+                <Button
+                  variant={example === 'components' ? 'primary' : 'outline-primary'}
+                  size="sm"
+                  onClick={() => setExample('components')}
+                >
+                  Components demo
+                </Button>
+              </div>
+            </div>
+            <div className="mt-auto pt-3 border-top">
+              <div className="d-flex justify-content-between align-items-center">
+                <span className="small text-muted">Theme</span>
+                <Button
+                  variant={theme === 'light' ? 'dark' : 'light'}
+                  size="sm"
+                  onClick={toggleTheme}
+                >
+                  {theme === 'light' ? 'Dark' : 'Light'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Col>
+
+        {/* Main content */}
+        <Col md={9} lg={10}>
+          {example === 'pricing' ? <PricingExample /> : <ComponentsExample />}
         </Col>
       </Row>
-      <Row className="text-center mb-4">
-        <Col>
-          <h1 className="display-4 mb-4">Vite + React</h1>
-          <div className="mb-4">
-            <a href="https://vite.dev" target="_blank" className="me-4">
-              <img src={viteLogo} className="logo" alt="Vite logo" />
+    </Container>
+  )
+}
+
+function PricingExample() {
+  return (
+    <>
+      {/* Header bar */}
+      <header className="pb-3 mb-4 border-bottom">
+        <Row className="align-items-center">
+          <Col md={6}>
+            <a href="#" className="d-inline-flex align-items-center text-decoration-none">
+              <span className="fs-4 fw-bold">Company name</span>
             </a>
-            <a href="https://react.dev" target="_blank">
-              <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
-          </div>
+          </Col>
+          <Col md={6} className="d-none d-md-flex justify-content-end">
+            <nav>
+              <a href="#" className="px-2 text-secondary">Features</a>
+              <a href="#" className="px-2 text-secondary">Enterprise</a>
+              <a href="#" className="px-2 text-secondary">Support</a>
+              <a href="#" className="px-2 text-secondary">Pricing</a>
+            </nav>
+          </Col>
+        </Row>
+      </header>
+
+      {/* Hero */}
+      <Row className="text-center mb-5">
+        <Col lg={{ span: 6, offset: 3 }}>
+          <h1 className="display-4">Pricing</h1>
+          <p className="lead text-muted">
+            Quickly build an effective pricing table for your potential customers with this
+            Bootstrap-inspired example. It uses default components and utilities with light
+            customization.
+          </p>
         </Col>
       </Row>
 
-      {showAlert && (
-        <Row className="mb-4">
-          <Col>
-            <div className="alert alert-info alert-dismissible fade show" role="alert">
-              <h4 className="alert-heading">Welcome!</h4>
-              <p className="mb-0">This page showcases various Bootstrap components including cards and buttons.</p>
-              <button 
-                type="button" 
-                className="btn-close" 
-                aria-label="Close"
-                onClick={() => setShowAlert(false)}
-              ></button>
-            </div>
-          </Col>
-        </Row>
-      )}
+      {/* Pricing cards */}
+      <Row className="row-cols-1 row-cols-md-3 mb-5 text-center g-4">
+        <Col>
+          <Card className="mb-4 shadow-sm h-100">
+            <Card.Header>
+              <h4 className="my-0 fw-normal">Free</h4>
+            </Card.Header>
+            <Card.Body>
+              <h1 className="card-title pricing-card-title">
+                $0 <small className="text-muted fw-light">/ mo</small>
+              </h1>
+              <ul className="list-unstyled mt-3 mb-4">
+                <li>10 users included</li>
+                <li>2 GB of storage</li>
+                <li>Email support</li>
+                <li>Help center access</li>
+              </ul>
+              <Button variant="outline-primary" className="w-100">
+                Sign up for free
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col>
+          <Card className="mb-4 shadow-sm h-100 border-primary">
+            <Card.Header className="bg-primary text-white">
+              <h4 className="my-0 fw-normal">Pro</h4>
+            </Card.Header>
+            <Card.Body>
+              <h1 className="card-title pricing-card-title">
+                $15 <small className="text-muted fw-light">/ mo</small>
+              </h1>
+              <ul className="list-unstyled mt-3 mb-4">
+                <li>20 users included</li>
+                <li>10 GB of storage</li>
+                <li>Priority email support</li>
+                <li>Help center access</li>
+              </ul>
+              <Button variant="primary" className="w-100">
+                Get started
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col>
+          <Card className="mb-4 shadow-sm h-100">
+            <Card.Header>
+              <h4 className="my-0 fw-normal">Enterprise</h4>
+            </Card.Header>
+            <Card.Body>
+              <h1 className="card-title pricing-card-title">
+                $29 <small className="text-muted fw-light">/ mo</small>
+              </h1>
+              <ul className="list-unstyled mt-3 mb-4">
+                <li>30 users included</li>
+                <li>15 GB of storage</li>
+                <li>Phone and email support</li>
+                <li>Help center access</li>
+              </ul>
+              <Button variant="primary" className="w-100">
+                Contact us
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Footer-style links */}
+      <Row className="pt-4 mt-4 border-top text-muted">
+        <Col md={4} className="mb-3">
+          <h5>Features</h5>
+          <ul className="list-unstyled">
+            <li>Cool stuff</li>
+            <li>Random feature</li>
+            <li>Team feature</li>
+            <li>Stuff for developers</li>
+            <li>Another one</li>
+            <li>Last time</li>
+          </ul>
+        </Col>
+        <Col md={4} className="mb-3">
+          <h5>Resources</h5>
+          <ul className="list-unstyled">
+            <li>Resource</li>
+            <li>Resource name</li>
+            <li>Another resource</li>
+            <li>Final resource</li>
+          </ul>
+        </Col>
+        <Col md={4} className="mb-3">
+          <h5>About</h5>
+          <ul className="list-unstyled">
+            <li>Team</li>
+            <li>Locations</li>
+            <li>Privacy</li>
+            <li>Terms</li>
+          </ul>
+          <small className="d-block mt-3">© 2017–2018</small>
+        </Col>
+      </Row>
+    </>
+  )
+}
+
+function ComponentsExample() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <header className="pb-3 mb-4 border-bottom">
+        <h1 className="display-5">Components demo</h1>
+        <p className="lead text-muted mb-0">
+          A gallery of Bootstrap cards, buttons, badges, and layouts.
+        </p>
+      </header>
 
       <Row className="mb-4">
         <Col md={6} className="mb-4">
           <Card className="shadow-sm h-100">
             <Card.Body className="text-center">
               <Card.Title className="mb-3">
-                Counter Example <Badge bg="primary">New</Badge>
+                Counter example <Badge bg="primary">Live</Badge>
               </Card.Title>
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 size="lg"
-                onClick={() => setCount((count) => count + 1)}
+                onClick={() => setCount(c => c + 1)}
                 className="mb-3"
               >
-                Count is <Badge bg="light" text="dark">{count}</Badge>
+                Count is <Badge bg="light" text="dark" className="ms-1">{count}</Badge>
               </Button>
               <Card.Text className="text-muted">
-                Edit <code>src/App.tsx</code> and save to test HMR
+                Click the button to increment the counter.
               </Card.Text>
             </Card.Body>
           </Card>
@@ -105,18 +248,18 @@ function App() {
         <Col md={6} className="mb-4">
           <Card className="shadow-sm h-100 border-primary">
             <Card.Header className="bg-primary text-white">
-              <Card.Title className="mb-0">Button Variants</Card.Title>
+              <Card.Title className="mb-0">Button variants</Card.Title>
             </Card.Header>
             <Card.Body>
               <div className="d-grid gap-2">
-                <Button variant="primary">Primary Button</Button>
-                <Button variant="secondary">Secondary Button</Button>
-                <Button variant="success">Success Button</Button>
-                <Button variant="danger">Danger Button</Button>
-                <Button variant="warning">Warning Button</Button>
-                <Button variant="info">Info Button</Button>
-                <Button variant="light">Light Button</Button>
-                <Button variant="dark">Dark Button</Button>
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="success">Success</Button>
+                <Button variant="danger">Danger</Button>
+                <Button variant="warning">Warning</Button>
+                <Button variant="info">Info</Button>
+                <Button variant="light">Light</Button>
+                <Button variant="dark">Dark</Button>
               </div>
             </Card.Body>
           </Card>
@@ -126,110 +269,64 @@ function App() {
       <Row className="mb-4">
         <Col md={4} className="mb-4">
           <Card className="shadow-sm h-100">
-            <Card.Img variant="top" src={viteLogo} style={{ height: '200px', objectFit: 'contain', padding: '1rem' }} />
             <Card.Body>
-              <Card.Title>Vite Card</Card.Title>
-              <Card.Text>
-                Fast build tool and development server for modern web projects.
+              <Card.Title>Outline buttons</Card.Title>
+              <Card.Text className="mb-3">
+                Use outline styles for secondary actions.
               </Card.Text>
-              <ButtonGroup className="w-100">
-                <Button variant="outline-primary" size="sm">Learn More</Button>
-                <Button variant="outline-secondary" size="sm">Docs</Button>
-              </ButtonGroup>
+              <div className="d-grid gap-2">
+                <Button variant="outline-primary">Outline primary</Button>
+                <Button variant="outline-secondary">Outline secondary</Button>
+                <Button variant="outline-success">Outline success</Button>
+              </div>
             </Card.Body>
           </Card>
         </Col>
         <Col md={4} className="mb-4">
           <Card className="shadow-sm h-100">
-            <Card.Img variant="top" src={reactLogo} style={{ height: '200px', objectFit: 'contain', padding: '1rem' }} />
             <Card.Body>
-              <Card.Title>React Card</Card.Title>
-              <Card.Text>
-                A JavaScript library for building user interfaces with components.
+              <Card.Title>Button groups</Card.Title>
+              <Card.Text className="mb-3">
+                Group related actions together.
               </Card.Text>
-              <ButtonGroup className="w-100">
-                <Button variant="outline-success" size="sm">Learn More</Button>
-                <Button variant="outline-info" size="sm">Docs</Button>
-              </ButtonGroup>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={4} className="mb-4">
-          <Card className="shadow-sm h-100 border-success">
-            <Card.Header className="bg-success text-white">
-              <Card.Title className="mb-0">Action Buttons</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <div className="d-grid gap-2">
-                <Button variant="outline-primary" size="lg">
-                  Large Button
-                </Button>
-                <Button variant="outline-secondary">
-                  Default Button
-                </Button>
-                <Button variant="outline-success" size="sm">
-                  Small Button
-                </Button>
-                <Button variant="primary" disabled>
-                  Disabled Button
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
-      <Row className="mb-4">
-        <Col md={6} className="mb-4">
-          <Card className="shadow-sm">
-            <Card.Body>
-              <Card.Title>Button Group Examples</Card.Title>
-              <Card.Text className="mb-3">Different button group styles:</Card.Text>
-              <ButtonGroup className="mb-3" aria-label="Basic example">
+              <ButtonGroup className="mb-3">
                 <Button variant="primary">Left</Button>
                 <Button variant="primary">Middle</Button>
                 <Button variant="primary">Right</Button>
               </ButtonGroup>
-              <br />
-              <ButtonGroup vertical className="w-100">
-                <Button variant="outline-dark">Top</Button>
-                <Button variant="outline-dark">Middle</Button>
-                <Button variant="outline-dark">Bottom</Button>
-              </ButtonGroup>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6} className="mb-4">
-          <Card className="shadow-sm">
-            <Card.Body>
-              <Card.Title>Badge Examples</Card.Title>
-              <Card.Text className="mb-3">Various badge styles:</Card.Text>
-              <div className="mb-2">
-                <Badge bg="primary" className="me-2">Primary</Badge>
-                <Badge bg="secondary" className="me-2">Secondary</Badge>
-                <Badge bg="success" className="me-2">Success</Badge>
-                <Badge bg="danger" className="me-2">Danger</Badge>
-                <Badge bg="warning" text="dark" className="me-2">Warning</Badge>
-                <Badge bg="info" className="me-2">Info</Badge>
-              </div>
               <div>
-                <Button variant="primary">
-                  Notifications <Badge bg="light" text="dark">4</Badge>
-                </Button>
+                <ButtonGroup vertical>
+                  <Button variant="outline-dark">Top</Button>
+                  <Button variant="outline-dark">Middle</Button>
+                  <Button variant="outline-dark">Bottom</Button>
+                </ButtonGroup>
               </div>
             </Card.Body>
           </Card>
         </Col>
-      </Row>
-
-      <Row>
-        <Col className="text-center">
-          <p className="text-muted">
-            Click on the Vite and React logos to learn more
-          </p>
+        <Col md={4} className="mb-4">
+          <Card className="shadow-sm h-100">
+            <Card.Body>
+              <Card.Title>Badges</Card.Title>
+              <Card.Text className="mb-3">
+                Small count and labeling components.
+              </Card.Text>
+              <div className="mb-2">
+                <Badge bg="primary" className="me-1">Primary</Badge>
+                <Badge bg="secondary" className="me-1">Secondary</Badge>
+                <Badge bg="success" className="me-1">Success</Badge>
+                <Badge bg="danger" className="me-1">Danger</Badge>
+                <Badge bg="warning" text="dark" className="me-1">Warning</Badge>
+                <Badge bg="info" className="me-1">Info</Badge>
+              </div>
+              <Button variant="primary">
+                Notifications <Badge bg="light" text="dark" className="ms-1">4</Badge>
+              </Button>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
-    </Container>
+    </>
   )
 }
 
