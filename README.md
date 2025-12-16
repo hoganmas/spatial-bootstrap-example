@@ -1,73 +1,60 @@
-# React + TypeScript + Vite
+# Spatial Bootstrap Example
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An example **WebSpatial** application that showcases **Spatial Bootstrap**.
 
-Currently, two official plugins are available:
+##  Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Since this app uses WebSpatial, check here for device requirements / FAQ: https://webspatial.dev/
 
-## React Compiler
+This project assumes you're on at least: macOS 26.1, XCode 26.1, with visionOS 26.2 simulator installed.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+### **Install dependencies**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### **Build app for Apple Vision Pro Simulator**
+```bash
+npm run build:avp
 ```
+
+If you see build issues regarding the CodeSign of `node_modules/.webspatial-builder-temp/platform-visionos/test/Build/Products/Debug-xrsimulator/RealityKitContent_RealityKitContent.bundle`, you can disabled CodeSigning by replacing the following lines in `node_modules/@webspatial/builder/dist/lib/xcode/xcrun.js`:
+
+OLD
+```js
+const buildCMD = new xcodebuild_1.XcodebuildCMD().project(projectFile).line +
+    ` build -scheme web-spatial -destination 'platform=visionOS Simulator,id=${deviceId}' -derivedDataPath ${resource_1.PROJECT_TEST_DIRECTORY}`;
+
+```
+
+NEW
+```js
+const buildCMD = new xcodebuild_1.XcodebuildCMD().project(projectFile).line +
+    ` clean build -scheme web-spatial -destination 'platform=visionOS Simulator,id=${deviceId}' -derivedDataPath ${resource_1.PROJECT_TEST_DIRECTORY} \
+        CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO`;
+```
+
+### **Start development server**
+
+```bash
+npm run dev:avp
+```
+
+Runs on a local HTTPS server at:
+**[https://localhost:3000](https://localhost:3000)**
+
+## Resources
+
+* **WebSpatial Documentation**
+* **Vite**
+* **React**
+
+---
+
+## 📄 License
+
+MIT
+
+---
