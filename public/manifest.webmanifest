@@ -1,6 +1,6 @@
 {
-    "name": "WebSpatial Hackathon",
-    "short_name": "Hackathon",
+    "name": "Spatial Bootstrap Example",
+    "short_name": "Example",
     "start_url": "/webspatial/avp/",
     "scope": "/",
     "display": "standalone",
